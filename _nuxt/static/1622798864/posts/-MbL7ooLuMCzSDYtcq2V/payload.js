@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/posts/-MbL7ooLuMCzSDYtcq2V", {data:[{loadedPost:{author:"Freya",content:"好嚴重",id:"-MbL7ooLuMCzSDYtcq2V",previewText:"好無聊哇",thumbnail:"https:\u002F\u002Fwww.yourtrainingedge.com\u002Fwp-content\u002Fuploads\u002F2019\u002F05\u002Fbackground-calm-clouds-747964-1068x674.jpg",title:"疫情",updatedDate:"2021-06-04T08:28:27.233Z"}}],fetch:{},mutations:[]});

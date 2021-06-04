@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/admin/-MbKxZBY7oOFIkmB6Yfx", {data:[{loadedPost:{author:"Mr.White",content:"這批純喔",id:"-MbKxZBY7oOFIkmB6Yfx",previewText:"tight!??",thumbnail:"https:\u002F\u002Fwww.yourtrainingedge.com\u002Fwp-content\u002Fuploads\u002F2019\u002F05\u002Fbackground-calm-clouds-747964-1068x674.jpg",title:"水晶餃",updatedDate:"2021-06-04T07:39:15.607Z"}}],fetch:{},mutations:[]});
