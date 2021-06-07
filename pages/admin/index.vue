@@ -2,6 +2,7 @@
   <div class="admin-page">
     <section class="new-post">
       <AppButton @click="$router.push('/admin/new-post')">新增文章</AppButton>
+      <AppButton @click="onLogout">登出</AppButton>
     </section>
     <section class="existing-posts">
       <h1>現存文章</h1>
@@ -11,18 +12,18 @@
 </template>
 
 <script>
-import PostList from '@/components/Posts/PostList';
-import AppButton from '@/components/UI/AppButton';
-
 export default {
   layout: 'admin',
-  components:{
-    PostList,
-    AppButton,
-  },
+  middleware: ['check-auth','auth'],
   computed:{
     loadedPosts(){
       return this.$store.getters.loadedPosts
+    },
+  },
+  methods:{
+    onLogout(){
+      this.$store.dispatch('logout');
+      this.$router.push('/admin/auth'); // 登出後回到登入頁面
     }
   }
 }
