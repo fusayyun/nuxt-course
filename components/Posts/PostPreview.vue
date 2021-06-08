@@ -9,7 +9,66 @@
         </article>
       </nuxt-link>
 </template>
-<script>
+<script lang="ts">
+import { Vue, Component, Prop } from 'vue-property-decorator';
+
+@Component
+export default class PostPreview extends Vue{
+  
+  /**
+   * 是否在Admin頁面
+   */
+  @Prop({
+    type: Boolean,
+    default: true
+  }) 
+  readonly isAdmin!: boolean;
+  
+  /**
+   * 文章ID
+   */
+  @Prop({
+    type: String,
+    required: true,
+  }) 
+  readonly id!: string;
+  
+  /**
+   * 文章標題
+   */
+  @Prop({
+    type: String,
+    required: true,
+  }) 
+  readonly title!: string;
+  
+  /**
+   * 文章預覽文字
+   */
+  @Prop({
+    type: String,
+    required: true,
+  }) 
+  readonly previewText!: string;
+  
+  /**
+   * 文章預覽圖
+   */
+  @Prop({
+    type: String,
+    required: true,
+  }) 
+  readonly thumbnail!: string;
+
+  /**
+   * Admin頁面?文章編輯頁:文章閱覽頁
+   */
+  get postLink(): string{
+    return this.isAdmin ? '/admin/'+this.id : '/posts/' + this.id
+  }
+}
+</script>
+<!--script>
 export default {
   name:'PostPreview',
   props: {
@@ -42,7 +101,7 @@ export default {
     }
   }
 }
-</script>
+</script-->
 <style scoped>
 
 .post-preview {
