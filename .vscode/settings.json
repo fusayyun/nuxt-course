@@ -1,0 +1,22 @@
+{
+  // Editor
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": false,
+
+  // Javascript and Typescript
+  "javascript.format.enable": false,
+  "typescript.format.enable": false,
+
+  // Vetur
+  "vetur.experimental.templateInterpolationService": true,
+  "vetur.format.defaultFormatter.html": "none",
+  "vetur.format.defaultFormatter.js": "none",
+  "vetur.format.defaultFormatter.ts": "none",
+  "vetur.languageFeatures.codeActions": false,
+  "vetur.trace.server": "messages",
+  "vetur.validation.style": false,
+  "search.followSymlinks": false
+}
