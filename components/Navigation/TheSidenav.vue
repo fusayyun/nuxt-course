@@ -20,7 +20,18 @@
 </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue, Prop } from 'nuxt-property-decorator'
+
+@Component
+export default class TheSidenav extends Vue {
+  /** 是否顯示 */
+  @Prop({ type: Boolean, default: false})
+  readonly show!: boolean;
+
+}
+</script>
+<!--script>
 export default {
   name: "TheSidenav",
   props: {
@@ -30,7 +41,7 @@ export default {
     }
   }
 };
-</script>
+</script-->
 
 
 <style scoped>

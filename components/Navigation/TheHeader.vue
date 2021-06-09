@@ -17,7 +17,17 @@
 </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
+import TheSideNavToggle from "@/components/Navigation/TheSideNavToggle.vue";
+@Component({
+  components: { TheSideNavToggle }
+})
+export default class extends Vue {
+  
+}
+</script>
+<!--script>
 import TheSideNavToggle from "@/components/Navigation/TheSideNavToggle";
 
 export default {
@@ -26,7 +36,7 @@ export default {
     TheSideNavToggle
   }
 };
-</script>
+</script-->
 
 
 <style scoped>

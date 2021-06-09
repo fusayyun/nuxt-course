@@ -13,8 +13,24 @@
       @input="$emit('input', $event.target.value)"></textarea>
   </div>
 </template>
+<script lang="ts">
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
-<script>
+@Component
+export default class AppControlInput extends Vue {
+  /**
+   * input type
+   */
+  @Prop({ type: String, default: 'input' })
+  readonly controlType!: string;
+  /**
+   * input value
+   */
+  @Prop({ type: String, default: '' })
+  readonly value: string |undefined
+}
+</script>
+<!--script>
 export default {
   name: 'AppInputControl',
   props: {
@@ -28,7 +44,7 @@ export default {
     }
   }
 }
-</script>
+</script-->
 
 <style scoped>
 .input-control {

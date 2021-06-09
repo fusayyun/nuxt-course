@@ -16,13 +16,83 @@
     <AppButton type="submit">Save</AppButton>
             
     <AppButton
-              type="button"
-              style="margin-left: 10px"
-              btn-style="cancel"
-              @click="onCancel">Cancel</AppButton>
-</form>
+      type="button"
+      style="margin-left: 10px"
+      btn-style="cancel"
+      @click="onCancel">Cancel</AppButton>
+  </form>
 </template>
-<script>
+<script lang="ts">
+import { Component, Vue, Prop, Emit } from 'nuxt-property-decorator'
+
+/**
+ * 文章格式
+ */
+interface Post {
+  readonly author: string;
+  readonly title: string;
+  readonly thumbnail: string;
+  readonly content:  string;
+  readonly previewText: string;
+}
+
+@Component
+export default class AdminPostForm extends Vue {
+  /**
+   * 文章
+   */
+  @Prop({ type: Object, required: false })
+  readonly post: Post | undefined;
+  // get editedPost(): Post{
+  //   return this.post 
+  //   ? { ...this.post } 
+  //   : {
+  //     author:"",
+  //     title:"",
+  //     thumbnail: "",
+  //     content: "",
+  //     previewText:"",
+  //   }
+  // }
+
+  /**
+   * 編輯文章
+   */
+  public editedPost:Post = 
+  {
+      author:"",
+      title:"",
+      thumbnail: "",
+      content: "",
+      previewText:"",
+  };
+
+  /**
+   * 儲存文章，觸發submit事件
+   */
+  @Emit('submit')
+  public onSave(){
+    return this.editedPost
+  };
+
+  /**
+   * 取消編輯
+   */
+  public onCancel(){
+    this.$router.push('/admin');
+  };
+
+  /**
+   * 如果有擷取到文章，載入文章
+   */
+  created() {
+    if (this.post){
+      this.editedPost = this.post
+    }
+  };
+}
+</script>
+<!--script>
 import AppControlInput from '@/components/UI/AppControlInput'
 import AppButton from '@/components/UI/AppButton'
 export default {
@@ -46,7 +116,7 @@ export default {
         thumbnail: "",
         content: "",
         previewText:"",
-      }
+      }`
     }
   },
   methods:{
@@ -60,4 +130,4 @@ export default {
     }
   }
 }
-</script>
+</script-->
