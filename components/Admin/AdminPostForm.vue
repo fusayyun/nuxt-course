@@ -1,20 +1,20 @@
 <template>
   <form @submit.prevent="onSave">
     <AppControlInput v-model="editedPost.author">Author Name</AppControlInput>
-    
+
     <AppControlInput v-model="editedPost.title">Title</AppControlInput>
-            
+
     <AppControlInput v-model="editedPost.thumbnail">Thumbnail Link</AppControlInput>
-            
+
     <AppControlInput
               control-type="textarea"
               v-model="editedPost.content">Content</AppControlInput>
     <AppControlInput
               control-type="textarea"
               v-model="editedPost.previewText">Preview Text</AppControlInput>
-            
+
     <AppButton type="submit">Save</AppButton>
-            
+
     <AppButton
       type="button"
       style="margin-left: 10px"
@@ -24,17 +24,8 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Prop, Emit } from 'nuxt-property-decorator'
+import {Post} from '~/interfaces/post'
 
-/**
- * 文章格式
- */
-interface Post {
-  readonly author: string;
-  readonly title: string;
-  readonly thumbnail: string;
-  readonly content:  string;
-  readonly previewText: string;
-}
 
 @Component
 export default class AdminPostForm extends Vue {
@@ -44,8 +35,8 @@ export default class AdminPostForm extends Vue {
   @Prop({ type: Object, required: false })
   readonly post: Post | undefined;
   // get editedPost(): Post{
-  //   return this.post 
-  //   ? { ...this.post } 
+  //   return this.post
+  //   ? { ...this.post }
   //   : {
   //     author:"",
   //     title:"",
@@ -58,7 +49,7 @@ export default class AdminPostForm extends Vue {
   /**
    * 編輯文章
    */
-  public editedPost:Post = 
+  public editedPost: Pick<Post, 'author' | 'title'| 'thumbnail'| 'content' | 'previewText'> =
   {
       author:"",
       title:"",
@@ -109,7 +100,7 @@ export default {
   data(){
     return{
       editedPost:this.post
-      ? { ...this.post } 
+      ? { ...this.post }
       : {
         author:"",
         title:"",

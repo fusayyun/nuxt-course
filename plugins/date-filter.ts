@@ -1,6 +1,6 @@
-import Vue from 'vue'
+import Vue from "vue";
 
-const months = [
+const months: string[] = [
   "Jan.",
   "Feb.",
   "Mar.",
@@ -15,18 +15,16 @@ const months = [
   "Dec."
 ];
 
-const dateFilter = value => {
-  return formatDate(value);
-};
+const dateFilter = (value: Date) => formatDate(value);;
 
-function formatDate(inputDate) {
-  const date = new Date(inputDate);
+function formatDate(inputDate: Date): string {
+  const date: Date = new Date(inputDate);
   const year = date.getFullYear();
   const month = date.getMonth();
   const day = date.getDate();
-  const formattedDate =  months[month] + " " +day + " " + year ;
+  const formattedDate = months[month] + " " + day + " " + year;
   return formattedDate;
 }
 
 // https://vuejs.org/v2/guide/filters.html
-Vue.filter('date', dateFilter)
+Vue.filter("date", dateFilter);

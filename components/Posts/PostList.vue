@@ -13,17 +13,7 @@
 <script lang="ts">
 import PostPreview from '@/components/Posts/PostPreview.vue'
 import { Component, Vue ,Prop } from 'nuxt-property-decorator'
-
-/**
- * 文章格式
- */
-interface Post {
-  readonly id: string;
-  readonly isAdmin:  string;
-  readonly thumbnail: string;
-  readonly title: string;
-  readonly previewText: string;
-}
+import {Post} from '@/interfaces/post'
 
 @Component({
   components: { PostPreview }
@@ -39,7 +29,7 @@ export default class PostList extends Vue {
    * 文章陣列
    */
   @Prop({ type: Array,  required: true })
-  readonly posts!: Post[];
+  readonly posts!: Pick<Post, 'id' | 'thumbnail'|'title'|'previewText'>[];
 }
 </script>
 <!--script>
