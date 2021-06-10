@@ -3,10 +3,20 @@
     <section class="intro">
       <h1>得到最新的消息！</h1>
     </section>
-    <PostList :posts='loadedPosts'/>
+    <PostList :posts="loadedPosts" />
   </div>
 </template>
-<script>
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
+
+@Component
+export default class extends Vue {
+  get loadedPosts () {
+    return this.$store.getters.loadedPosts
+  }
+}
+</script>
+<!--script>
 export default {
   computed:{
     loadedPosts(){
@@ -16,11 +26,11 @@ export default {
   },
   // data(){
   //   return{
-  //     loadedPosts: []  
+  //     loadedPosts: []
   //   }
   // },
 }
-</script>
+</script-->
 <style scoped>
 .intro {
   height: 300px;

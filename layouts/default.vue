@@ -1,8 +1,10 @@
 <template>
   <div>
     <TheHeader @sidenavToggle="displaySidenav = !displaySidenav" />
-    <TheSidenav :show="displaySidenav"
-                @close="displaySidenav=false" />
+    <TheSidenav
+      :show="displaySidenav"
+      @close="displaySidenav=false"
+    />
     <Nuxt />
   </div>
 </template>
@@ -22,15 +24,15 @@ export default class default extends Vue {
 import TheHeader from '@/components/Navigation/TheHeader'
 import TheSidenav from '@/components/Navigation/TheSidenav'
 export default {
-  name: 'default',
+  name: 'Default',
   // middleware:'log',
-  components:{
+  components: {
     TheHeader,
-    TheSidenav,
+    TheSidenav
   },
-  data(){
-    return{
-      displaySidenav: false,
+  data () {
+    return {
+      displaySidenav: false
     }
   }
 }

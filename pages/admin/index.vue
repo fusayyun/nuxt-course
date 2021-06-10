@@ -1,17 +1,40 @@
 <template>
   <div class="admin-page">
     <section class="new-post">
-      <AppButton @click="$router.push('/admin/new-post')">新增文章</AppButton>
-      <AppButton @click="onLogout">登出</AppButton>
+      <AppButton @click="$router.push('/admin/new-post')">
+        新增文章
+      </AppButton>
+      <AppButton @click="onLogout">
+        登出
+      </AppButton>
     </section>
     <section class="existing-posts">
       <h1>現存文章</h1>
-      <PostList isAdmin :posts='loadedPosts' />
+      <PostList is-admin :posts="loadedPosts" />
     </section>
   </div>
 </template>
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
 
-<script>
+@Component({
+  middleware: ['check-auth', 'auth'],
+  layout: 'admin'
+})
+export default class extends Vue {
+  /** 取得文件列表 */
+  get loadedPosts () {
+    return this.$store.getters.loadedPosts
+  };
+
+  /** 登出事件處理 */
+  onLogout () {
+    this.$store.dispatch('logout')
+    this.$router.push('/admin/auth') // 登出後回到登入頁面
+  };
+}
+</script>
+<!--script>
 export default {
   layout: 'admin',
   middleware: ['check-auth','auth'],
@@ -27,7 +50,7 @@ export default {
     }
   }
 }
-</script>
+</script-->
 <style scoped>
 .admin-page {
   padding: 20px;

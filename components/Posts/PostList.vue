@@ -1,19 +1,20 @@
 <template>
   <section class="post-list">
-  <PostPreview
-    v-for='post in posts'
-    :key='post.id'
-    :id='post.id'
-    :is-admin='isAdmin'
-    :thumbnail='post.thumbnail'
-    :title='post.title'
-    :previewText='post.previewText' />
+    <PostPreview
+      v-for="post in posts"
+      :id="post.id"
+      :key="post.id"
+      :is-admin="isAdmin"
+      :thumbnail="post.thumbnail"
+      :title="post.title"
+      :preview-text="post.previewText"
+    />
   </section>
 </template>
 <script lang="ts">
 import PostPreview from '@/components/Posts/PostPreview.vue'
-import { Component, Vue ,Prop } from 'nuxt-property-decorator'
-import {Post} from '@/interfaces/post'
+import { Component, Vue, Prop } from 'nuxt-property-decorator'
+import { Post } from '@/interfaces/post'
 
 @Component({
   components: { PostPreview }
@@ -28,7 +29,7 @@ export default class PostList extends Vue {
   /**
    * 文章陣列
    */
-  @Prop({ type: Array,  required: true })
+  @Prop({ type: Array, required: true })
   readonly posts!: Pick<Post, 'id' | 'thumbnail'|'title'|'previewText'>[];
 }
 </script>

@@ -1,24 +1,57 @@
 <template>
   <div class="single-post-page">
     <section class="post">
-      <h1 class="post-title">{{ loadedPost.title }}</h1>
+      <h1 class="post-title">
+        {{ loadedPost.title }}
+      </h1>
       <div class="post-details">
         <!-- 使用date-filter處理日期格式: https://vuejs.org/v2/guide/filters.html -->
-        <div class="post-detail">Last updated on {{ loadedPost.updatedDate | date }}</div> 
-        <div class="post-detail">Written by {{ loadedPost.author }}</div>
+        <div class="post-detail">
+          Last updated on {{ loadedPost.updatedDate | date }}
+        </div>
+        <div class="post-detail">
+          Written by {{ loadedPost.author }}
+        </div>
       </div>
-      <p class="post-content">{{ loadedPost.content }}</p>
+      <p class="post-content">
+        {{ loadedPost.content }}
+      </p>
     </section>
     <section class="post-feedback">
       <p>讓我知道你有什麼想法，請寄信到<a href="mailto:siyun.fu@tpisoftware.com">siyun.fu@tpisoftware.com</a>。</p>
     </section>
   </div>
 </template>
-<script>
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
+import { Post } from '@/interfaces/post'
+
+@Component({
+  /** 網頁標題 */
+  head: {
+    title: 'a Blog Post'
+  },
+  /** 文章載入 */
+  asyncData (context) {
+    return context.app.$axios.$get('/posts/' + context.params.id + '.json')
+      .then((data:Post) => {
+        return {
+          loadedPost: data
+        }
+      })
+      .catch((e:Error) => console.log(e))
+  }
+})
+export default class extends Vue {
+  // Async Data
+  loadedPost!: Post;
+}
+</script>
+<!--script>
 export default {
   asyncData(context){
     return context.app.$axios.$get('/posts/'+context.params.id+'.json')
-      .then( data => { 
+      .then( data => {
         return {
           loadedPost: data
         }
@@ -29,7 +62,7 @@ export default {
     title: 'a Blog Post'
   }
 }
-</script>
+</script-->
 <style scoped>
 .single-post-page {
   padding: 30px;

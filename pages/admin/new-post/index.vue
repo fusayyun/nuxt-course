@@ -5,7 +5,26 @@
     </section>
   </div>
 </template>
-<script>
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
+import AdminPostForm from '@/components/Admin/AdminPostForm.vue'
+import { Post } from '@/interfaces/post'
+
+@Component({
+  components: { AdminPostForm },
+  layout: 'admin',
+  middleware: ['check-auth', 'auth']
+})
+export default class extends Vue {
+  /** 處理送出事件: 新增文章 */
+  onSubmitted (postData:Pick<Post, 'author' | 'title'| 'thumbnail'| 'content' | 'previewText'>) {
+    this.$store.dispatch('addPost', postData).then(() => {
+      this.$router.push('/admin')
+    })
+  }
+}
+</script>
+<!--script>
 import AdminPostForm from '@/components/Admin/AdminPostForm'
 
 export default {
@@ -22,7 +41,7 @@ export default {
     }
   }
 }
-</script>
+</script-->
 <style scoped>
 .new-post-form {
   width: 90%;

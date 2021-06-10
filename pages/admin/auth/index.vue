@@ -2,20 +2,52 @@
   <div class="admin-auth-page">
     <div class="auth-container">
       <form @submit.prevent="onSubmitted">
-        <AppControlInput type="email" v-model="email">E-Mail Address</AppControlInput>
-        <AppControlInput type="password" v-model="password">Password</AppControlInput>
-        <AppButton type="submit">{{ isLogin ? 'Login' : 'Sign Up' }}</AppButton>
+        <AppControlInput v-model="email" type="email">
+          E-Mail Address
+        </AppControlInput>
+        <AppControlInput v-model="password" type="password">
+          Password
+        </AppControlInput>
+        <AppButton type="submit">
+          {{ isLogin ? 'Login' : 'Sign Up' }}
+        </AppButton>
         <AppButton
           type="button"
           btn-style="inverted"
           style="margin-left: 10px"
-          @click="isLogin = !isLogin">Switch to {{ isLogin ? 'Signup' : 'Login' }}</AppButton>
+          @click="isLogin = !isLogin"
+        >
+          Switch to {{ isLogin ? 'Signup' : 'Login' }}
+        </AppButton>
       </form>
     </div>
   </div>
 </template>
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
 
-<script>
+@Component({
+  layout: 'admin'
+})
+export default class extends Vue {
+  isLogin:boolean= true;
+  email:string= '';
+  password:string= '';
+
+  /** 處理送出事件 */
+  onSubmitted () {
+    this.$store.dispatch('authenticateUser', {
+      isLogin: this.isLogin,
+      email: this.email,
+      password: this.password
+    })
+      .then(() => {
+        this.$router.push('/admin')
+      })
+  }
+}
+</script>
+<!--script>
 export default {
   name: 'AdminAuthPage',
   layout: 'admin',
@@ -39,7 +71,7 @@ export default {
     }
   }
 }
-</script>
+</script-->
 
 <style scoped>
 .admin-auth-page {
@@ -56,4 +88,3 @@ export default {
   box-sizing: border-box;
 }
 </style>
-
