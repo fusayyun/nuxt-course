@@ -16,7 +16,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { getModule } from 'vuex-module-decorators'
+// import { getModule } from 'vuex-module-decorators'
 import postsModule from '~/store/modules/PostsModule'
 @Component({
   middleware: ['check-auth', 'auth'],
@@ -25,15 +25,15 @@ import postsModule from '~/store/modules/PostsModule'
 export default class extends Vue {
   /** 取得文件列表 */
   get loadedPosts () {
-    const MyModuleInstance = getModule(postsModule, this.$store)
-    console.log('MyModuleInstance: ', MyModuleInstance)
-    return MyModuleInstance.loadPosts
+    // const MyModuleInstance = getModule(postsModule, this.$store)
+    // console.log('MyModuleInstance: ', MyModuleInstance)
+    return postsModule.loadPosts
   }
 
   /** 登出事件處理 */
   onLogout () {
-    const MyModuleInstance = getModule(postsModule, this.$store)
-    MyModuleInstance.logout()
+    // const postsModule = getModule(postsModule, this.$store)
+    postsModule.logout()
     this.$router.push('/admin/auth') // 登出後回到登入頁面
   };
 }

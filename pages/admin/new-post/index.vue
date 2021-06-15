@@ -9,7 +9,7 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import AdminPostForm from '@/components/Admin/AdminPostForm.vue'
 import { Post } from '@/interfaces/post'
-import { getModule } from 'vuex-module-decorators'
+// import { getModule } from 'vuex-module-decorators'
 import postsModule from '~/store/modules/PostsModule'
 
 @Component({
@@ -20,8 +20,8 @@ import postsModule from '~/store/modules/PostsModule'
 export default class extends Vue {
   /** 處理送出事件: 新增文章 */
   onSubmitted (postData:Pick<Post, 'author' | 'title'| 'thumbnail'| 'content' | 'previewText'>) {
-    const MyModuleInstance = getModule(postsModule, this.$store)
-    MyModuleInstance.addPost(postData).then(() => {
+    // const MyModuleInstance = getModule(postsModule, this.$store)
+    postsModule.addPost(postData).then(() => {
       this.$router.push('/admin')
     })
   }

@@ -9,7 +9,7 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import AdminPostForm from '@/components/Admin/AdminPostForm.vue'
 import { Post } from '@/interfaces/post'
-
+import postsModule from '~/store/modules/PostsModule'
 @Component({
   components: { AdminPostForm },
   layout: 'admin',
@@ -22,7 +22,7 @@ import { Post } from '@/interfaces/post'
           '.json')
       .then((data: Post) => {
         return {
-          loadedPost: data
+          loadedPost: { ...data, id: context.params.postId }
         }
       })
       .catch((e: Error) => context.error(e))
@@ -30,9 +30,10 @@ import { Post } from '@/interfaces/post'
 })
 export default class extends Vue {
   loadedPost!: Post;
-  onSubmitted (editedPost: Pick<Post, 'author' | 'title'| 'thumbnail'| 'content' | 'previewText'>) {
-    this.$store.dispatch('editPost', editedPost)
+  onSubmitted (editedPost:Pick<Post, 'author' | 'title'| 'thumbnail'| 'content' | 'previewText'>) {
+    postsModule.editPost({ ...editedPost, id: this.loadedPost.id, updatedDate: this.loadedPost.updatedDate })
       .then(() => {
+        console.log({ ...editedPost, id: this.loadedPost.id, updatedDate: this.loadedPost.updatedDate })
         this.$router.push('/admin')
       })
   };

@@ -26,7 +26,7 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { Auth } from '@/interfaces/post'
-import { getModule } from 'vuex-module-decorators'
+// import { getModule } from 'vuex-module-decorators'
 import postsModule from '~/store/modules/PostsModule'
 @Component({
   layout: 'admin'
@@ -38,8 +38,8 @@ export default class extends Vue implements Auth {
 
   /** 處理送出事件 */
   onSubmitted () {
-    const MyModuleInstance = getModule(postsModule, this.$store)
-    MyModuleInstance.authenticateUser({
+    // const MyModuleInstance = getModule(postsModule, this.$store)
+    postsModule.authenticateUser({
       isLogin: this.isLogin,
       email: this.email,
       password: this.password

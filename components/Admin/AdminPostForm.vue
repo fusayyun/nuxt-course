@@ -46,7 +46,7 @@ import { Post } from '~/interfaces/post'
 @Component
 export default class AdminPostForm extends Vue {
   /**
-   * 文章
+   * 載入的文章
    */
   @Prop({ type: Object, required: false })
   readonly post: Post | undefined;

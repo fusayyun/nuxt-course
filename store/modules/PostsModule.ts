@@ -1,13 +1,13 @@
 import { IncomingMessage } from 'http'
-// import { store } from '@/store'
-import { Mutation, Action, VuexModule, Module, config } from 'vuex-module-decorators'
+import { store } from '@/store'
+import { Mutation, Action, VuexModule, Module, config, getModule } from 'vuex-module-decorators'
 import Cookie from 'js-cookie'
 import { Post, Auth } from '~/interfaces/post'
 import { $axios } from '~/utils/api'
 // Set rawError to true by default on all @Action decorators
 config.rawError = true
-@Module({ name: 'PostsModule'/* , namespaced: true, stateFactory: true  */ })
-export default class PostsModule extends VuexModule {
+@Module({ dynamic: true, name: 'PostsModule', store, namespaced: true/* , namespaced: true, stateFactory: true  */ })
+class PostsModule extends VuexModule {
   /** state */
   loadedPosts:Post[] = [];
   token: string | null = null;
@@ -46,6 +46,7 @@ export default class PostsModule extends VuexModule {
 
   @Action
   async addPost (post:Pick<Post, 'author' | 'title'| 'thumbnail'| 'content' | 'previewText'>) {
+    console.log(this.token)
     const createdData: Pick<Post, 'author' | 'title'| 'thumbnail'| 'content' | 'previewText'|'updatedDate'> = {
       ...post,
       updatedDate: new Date()
@@ -53,11 +54,12 @@ export default class PostsModule extends VuexModule {
     return await $axios.$post('/posts.json?auth=' +
       this.token, createdData)
       .then((data) => {
-        this.context.commit('ADD_POST', { ...createdData, id: data.name })
+        this.ADD_POST({ ...createdData, id: data.name })
       })
       .catch((e: Error) => console.log(e))
   };
 
+  /** 編輯文章 */
   @Action
   async editPost (editPost:Post) {
     return await $axios.$put('/posts/' +
@@ -87,7 +89,8 @@ export default class PostsModule extends VuexModule {
         returnSecureToken: true
       }
       ).then((result) => {
-        this.context.commit('SET_TOKEN', result.idToken)
+        this.SET_TOKEN(result.idToken)
+        console.log(this)
         localStorage.setItem('token', result.idToken) // 儲存token到localStorage
         localStorage.setItem(
           'tokenExpiration',
@@ -98,7 +101,7 @@ export default class PostsModule extends VuexModule {
           'expirationDate',
           (new Date().getTime() + Number.parseInt(result.expiresIn) * 1000).toString()
         )
-        return $axios.$post('http://localhost:3000/api/track-data', { data: 'Authenticated!' })
+        // return $axios.$post('http://localhost:3000/api/track-data', { data: 'Authenticated!' })
       })
       .catch(e => console.log(e))
   }
@@ -107,6 +110,7 @@ export default class PostsModule extends VuexModule {
   @Action
   public initAuth (req: IncomingMessage) {
     let token, expirationDate
+    console.log('req', req)
     if (req) { // 如果在server端
       if (!req.headers.cookie) {
         return
@@ -155,3 +159,4 @@ export default class PostsModule extends VuexModule {
     return this.token != null
   }
 }
+export default getModule(PostsModule)

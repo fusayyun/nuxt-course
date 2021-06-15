@@ -7,16 +7,14 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { getModule } from 'vuex-module-decorators'
+// import { getModule } from 'vuex-module-decorators'
 import postsModule from '~/store/modules/PostsModule'
 @Component({
   middleware: 'log'
 })
 export default class extends Vue {
   get loadedPosts () {
-    const MyModuleInstance = getModule(postsModule, this.$store)
-    console.log('MyModuleInstance: ', MyModuleInstance)
-    return MyModuleInstance.loadPosts
+    return postsModule.loadedPosts
   }
 }
 </script>
