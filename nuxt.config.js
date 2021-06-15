@@ -40,7 +40,8 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~plugins/core-components.ts',
-    '~plugins/date-filter.ts'
+    '~plugins/date-filter.ts',
+    '~/store/index.ts'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

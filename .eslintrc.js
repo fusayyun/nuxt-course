@@ -1,3 +1,5 @@
+const { Off } = require('nuxt-property-decorator')
+
 module.exports = {
   root: true,
   env: {
@@ -11,5 +13,7 @@ module.exports = {
   plugins: [
   ],
   // add your custom rules here
-  rules: {}
+  rules: {
+    'no-console': 'off'
+  }
 }

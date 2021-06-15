@@ -8,11 +8,14 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-
+import { getModule } from 'vuex-module-decorators'
+import postsModule from '~/store/modules/PostsModule'
 @Component
 export default class extends Vue {
   get loadedPosts () {
-    return this.$store.getters.loadedPosts
+    const MyModuleInstance = getModule(postsModule, this.$store)
+    console.log('MyModuleInstance: ', MyModuleInstance)
+    return MyModuleInstance.loadPosts
   }
 }
 </script>
