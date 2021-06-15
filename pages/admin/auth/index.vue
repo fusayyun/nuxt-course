@@ -43,10 +43,9 @@ export default class extends Vue implements Auth {
       isLogin: this.isLogin,
       email: this.email,
       password: this.password
+    }).then(() => {
+      this.$router.push('/admin')
     })
-      .then(() => {
-        this.$router.push('/admin')
-      })
   }
 }
 </script>

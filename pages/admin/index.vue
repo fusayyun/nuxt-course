@@ -33,7 +33,6 @@ export default class extends Vue {
   /** 登出事件處理 */
   onLogout () {
     const MyModuleInstance = getModule(postsModule, this.$store)
-
     MyModuleInstance.logout()
     this.$router.push('/admin/auth') // 登出後回到登入頁面
   };

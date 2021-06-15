@@ -1,10 +1,11 @@
 import { IncomingMessage } from 'http'
 // import { store } from '@/store'
-import { Mutation, Action, VuexModule, Module } from 'vuex-module-decorators'
+import { Mutation, Action, VuexModule, Module, config } from 'vuex-module-decorators'
 import Cookie from 'js-cookie'
 import { Post, Auth } from '~/interfaces/post'
 import { $axios } from '~/utils/api'
-
+// Set rawError to true by default on all @Action decorators
+config.rawError = true
 @Module({ name: 'PostsModule'/* , namespaced: true, stateFactory: true  */ })
 export default class PostsModule extends VuexModule {
   /** state */
@@ -44,15 +45,15 @@ export default class PostsModule extends VuexModule {
   };
 
   @Action
-  async addPost (post:Post) {
-    const createdData: Post = {
+  async addPost (post:Pick<Post, 'author' | 'title'| 'thumbnail'| 'content' | 'previewText'>) {
+    const createdData: Pick<Post, 'author' | 'title'| 'thumbnail'| 'content' | 'previewText'|'updatedDate'> = {
       ...post,
       updatedDate: new Date()
     }
     return await $axios.$post('/posts.json?auth=' +
       this.token, createdData)
       .then((data) => {
-        this.ADD_POST({ ...createdData, id: data.name })
+        this.context.commit('ADD_POST', { ...createdData, id: data.name })
       })
       .catch((e: Error) => console.log(e))
   };
@@ -70,8 +71,9 @@ export default class PostsModule extends VuexModule {
   }
 
   /** 驗證使用者 */
-  @Action
+  @Action({ rawError: true })
   async authenticateUser (authData:Auth) {
+    console.log(this)
     let authUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' +
         process.env.fbAPIKey
     if (!authData.isLogin) {

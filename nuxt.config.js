@@ -41,7 +41,8 @@ export default {
   plugins: [
     '~plugins/core-components.ts',
     '~plugins/date-filter.ts',
-    '~/store/index.ts'
+    '~plugins/axios-accessor',
+    '~plugins/store-accessor'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

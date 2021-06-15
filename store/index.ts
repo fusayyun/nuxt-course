@@ -1,12 +1,12 @@
 import Vuex, { Store } from 'vuex'
 // import { Context } from '@nuxt/types'
-import { initializeStores } from '~/utils/store-accessor'
+import { initializeStores } from '~/plugins/store-accessor'
 import { Post } from '~/interfaces/post'
 import postsModule from '~/store/modules/PostsModule'
 // import { RootState } from '~/interfaces'
 const initializer = (initStore: Store<any>) => initializeStores(initStore)
 export const plugins = [initializer]
-export * from '~/utils/store-accessor'
+export * from '~/plugins/store-accessor'
 const store = new Vuex.Store({
   actions: {
     nuxtServerInit: async (vuexContext, context) => {

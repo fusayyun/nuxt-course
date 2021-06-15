@@ -10,10 +10,12 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import { getModule } from 'vuex-module-decorators'
 import postsModule from '~/store/modules/PostsModule'
+import { postsStore } from '~/store'
 @Component
 export default class extends Vue {
   get loadedPosts () {
     const MyModuleInstance = getModule(postsModule, this.$store)
+    console.log(postsStore)
     console.log('MyModuleInstance: ', MyModuleInstance)
     return MyModuleInstance.loadPosts
   }
