@@ -45,17 +45,6 @@ export default class TheSidenav extends Vue {
   readonly show!: boolean;
 }
 </script>
-<!--script>
-export default {
-  name: "TheSidenav",
-  props: {
-    show: {
-      type: Boolean,
-      default: false
-    }
-  }
-};
-</script-->
 
 <style scoped>
 .sidenav-container {

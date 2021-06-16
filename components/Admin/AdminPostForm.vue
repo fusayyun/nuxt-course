@@ -41,31 +41,15 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Prop, Emit } from 'nuxt-property-decorator'
-import { Post } from '~/interfaces/post'
+import { Post, PostEdited } from '~/interfaces/post'
 
 @Component
 export default class AdminPostForm extends Vue {
-  /**
-   * 載入的文章
-   */
+  /** 載入的文章 */
   @Prop({ type: Object, required: false })
   readonly post: Post | undefined;
-  // get editedPost(): Post{
-  //   return this.post
-  //   ? { ...this.post }
-  //   : {
-  //     author:"",
-  //     title:"",
-  //     thumbnail: "",
-  //     content: "",
-  //     previewText:"",
-  //   }
-  // }
 
-  /**
-   * 編輯文章
-   */
-  public editedPost: Pick<Post, 'author' | 'title'| 'thumbnail'| 'content' | 'previewText'> =
+  public editedPost: PostEdited =
   {
     author: '',
     title: '',
@@ -74,67 +58,22 @@ export default class AdminPostForm extends Vue {
     previewText: ''
   };
 
-  /**
-   * 儲存文章，觸發submit事件
-   */
+  /** 儲存文章，觸發submit事件 */
   @Emit('submit')
   public onSave () {
     return this.editedPost
   };
 
-  /**
-   * 取消編輯
-   */
+  /** 取消編輯 */
   public onCancel () {
     this.$router.push('/admin')
   };
 
-  /**
-   * 如果有擷取到文章，載入文章
-   */
+  /** 如果有擷取到文章，載入文章 */
   created () {
-    if (this.post) {
+    if (this.post) { // 如果有文章載入
       this.editedPost = this.post
     }
   };
 }
 </script>
-<!--script>
-import AppControlInput from '@/components/UI/AppControlInput'
-import AppButton from '@/components/UI/AppButton'
-export default {
-  components:{
-    AppControlInput,
-    AppButton
-  },
-  props:{
-    post:{
-      type: Object,
-      required: false
-    }
-  },
-  data(){
-    return{
-      editedPost:this.post
-      ? { ...this.post }
-      : {
-        author:"",
-        title:"",
-        thumbnail: "",
-        content: "",
-        previewText:"",
-      }`
-    }
-  },
-  methods:{
-    onSave(){
-      // 儲存文章
-      this.$emit('submit',this.editedPost)
-    },
-    onCancel(){
-      // 上一步
-      this.$router.push('/admin')
-    }
-  }
-}
-</script-->

@@ -6,35 +6,19 @@
     <PostList :posts="loadedPosts" />
   </div>
 </template>
+
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-// import { getModule } from 'vuex-module-decorators'
 import postsModule from '~/store/modules/PostsModule'
-// import { postsStore } from '~/store/mo'
 @Component
 export default class extends Vue {
+  /** 取得文件列表 */
   get loadedPosts () {
-    // const MyModuleInstance = getModule(postsModule, this.$store)
-    // console.log('MyModuleInstance: ', MyModuleInstance)
     return postsModule.loadPosts
   }
 }
 </script>
-<!--script>
-export default {
-  computed:{
-    loadedPosts(){
-      console.log(this.$store.getters.loadedPosts)
-      return this.$store.getters.loadedPosts
-    },
-  },
-  // data(){
-  //   return{
-  //     loadedPosts: []
-  //   }
-  // },
-}
-</script-->
+
 <style scoped>
 .intro {
   height: 300px;

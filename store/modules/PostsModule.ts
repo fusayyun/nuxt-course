@@ -2,7 +2,7 @@ import { IncomingMessage } from 'http'
 import { store } from '@/store'
 import { Mutation, Action, VuexModule, Module, config, getModule } from 'vuex-module-decorators'
 import Cookie from 'js-cookie'
-import { Post, Auth } from '~/interfaces/post'
+import { Post, Auth, PostEdited, PostCreated } from '~/interfaces/post'
 import { $axios } from '~/utils/api'
 // Set rawError to true by default on all @Action decorators
 config.rawError = true
@@ -47,72 +47,63 @@ class PostsModule extends VuexModule {
   };
 
   @Action
-  async addPost (post:Pick<Post, 'author' | 'title'| 'thumbnail'| 'content' | 'previewText'>) {
-    const createdData: Pick<Post, 'author' | 'title'| 'thumbnail'| 'content' | 'previewText'|'updatedDate'> = {
-      ...post,
-      updatedDate: new Date()
+  async addPost (post:PostEdited) {
+    try {
+      const createdData: PostCreated = {
+        ...post,
+        updatedDate: new Date()
+      }
+      const data = await $axios.$post('/posts.json?auth=' + this.token, createdData)
+      this.ADD_POST({ ...createdData, id: data.name })
+    } catch (error) {
+      console.log(error)
     }
-    return await $axios.$post('/posts.json?auth=' +
-      this.token, createdData)
-      .then((data) => {
-        this.ADD_POST({ ...createdData, id: data.name })
-      })
-      .catch((e: Error) => console.log(e))
   };
 
   /** 編輯文章 */
   @Action
   async editPost (editPost:Post) {
-    return await $axios.$put('/posts/' +
-        editPost.id +
-        '.json?auth=' +
-        this.token, editPost)
-      .then(() => {
-        this.EDIT_POST(editPost)
-      })
-      .catch((e:Error) => console.log(e))
+    try {
+      await $axios.$put('/posts/' + editPost.id + '.json?auth=' + this.token, editPost)
+      this.EDIT_POST(editPost)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   /** 驗證使用者 */
   @Action({ rawError: true })
   async authenticateUser (authData:Auth) {
-    let authUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' +
-        process.env.fbAPIKey
-    if (!authData.isLogin) {
-      authUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' +
+    try {
+      /** 登入 或 註冊 */
+      let authUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' +
           process.env.fbAPIKey
-    }
-    return await $axios
-      .$post(authUrl, {
+      if (!authData.isLogin) { // 註冊
+        authUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' +
+            process.env.fbAPIKey
+      }
+      const result = await $axios.$post(authUrl, {
         email: authData.email,
         password: authData.password,
         returnSecureToken: true
-      }
-      ).then((result) => {
-        this.SET_TOKEN(result.idToken)
-        console.log(this)
-        localStorage.setItem('token', result.idToken) // 儲存token到localStorage
-        localStorage.setItem(
-          'tokenExpiration',
-          (new Date().getTime() + Number.parseInt(result.expiresIn) * 1000).toString()
-        )
-        Cookie.set('jwt', result.idToken)
-        Cookie.set(
-          'expirationDate',
-          (new Date().getTime() + Number.parseInt(result.expiresIn) * 1000).toString()
-        )
-        // return $axios.$post('http://localhost:3000/api/track-data', { data: 'Authenticated!' })
       })
-      .catch(e => console.log(e))
+      this.SET_TOKEN(result.idToken)
+      Cookie.set('jwt', result.idToken)
+      Cookie.set(
+        'expirationDate',
+        (new Date().getTime() + Number.parseInt(result.expiresIn) * 1000).toString()
+      )
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   /** 重整後重新獲取token */
   @Action
   public initAuth (req: IncomingMessage) {
-    let token, expirationDate
-    console.log('req', req)
-    if (req) { // 如果在server端
-      if (!req.headers.cookie) {
+    let token:string|undefined, expirationDate:string|undefined
+    if (req) { // 如果是重整
+      if (!req.headers.cookie) { // 如果沒有找到cookies
         return
       }
       const jwtCookie = req.headers.cookie
@@ -122,18 +113,17 @@ class PostsModule extends VuexModule {
         return
       }
       token = jwtCookie.split('=')[1]
-      // 如何解決:'TS2532: Object is possibly 'undefined'
+      // 如何解決:'TS2532: Object is possibly 'undefined'?
       expirationDate = req?.headers?.cookie?.split(';')?.find(c => c.trim().startsWith('expirationDate='))?.split('=')[1]
-    } else { // 如果在client端
-      token = localStorage.getItem('token')
-      expirationDate = localStorage.getItem('tokenExpiration')
+    } else { // 頁面切換
+      token = Cookie.get('jwt')
+      expirationDate = Cookie.get('expirationDate')
     }
-    // 如果過期了或是沒有token，自動登出
-    if (!expirationDate || new Date().getTime() > +expirationDate || !token) {
+
+    if (!expirationDate || new Date().getTime() > +expirationDate || !token) { // 如果過期了或是沒有token => 自動登出
       console.log('no token or invalid token')
       this.logout()
-    } else {
-    // 儲存token到state裡
+    } else { // => 儲存token到state裡
       this.SET_TOKEN(token)
     }
   }
@@ -144,14 +134,9 @@ class PostsModule extends VuexModule {
     this.CLEAR_TOKEN()
     Cookie.remove('jwt')
     Cookie.remove('expirationDate')
-    if (process.client) { // 如果目前在client端
-      localStorage.removeItem('tokenExpiration')
-      localStorage.removeItem('token')
-    }
   }
 
   get loadPosts () {
-    console.log('log post:', this.loadedPosts)
     return this.loadedPosts
   }
 

@@ -19,17 +19,6 @@ export default class AppButton extends Vue {
   readonly btnStyle: string | undefined;
 }
 </script>
-<!--script>
-export default {
-  name: 'AppButton',
-  props: {
-    btnStyle: {
-      type: String,
-      default: ''
-    }
-  }
-}
-</script-->
 
 <style scoped>
 .button {

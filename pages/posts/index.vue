@@ -5,9 +5,9 @@
     </section>
   </div>
 </template>
+
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-// import { getModule } from 'vuex-module-decorators'
 import postsModule from '~/store/modules/PostsModule'
 @Component({
   middleware: 'log'
@@ -18,16 +18,7 @@ export default class extends Vue {
   }
 }
 </script>
-<!--script>
-export default {
-  middleware: 'log',
-  computed:{
-    loadedPosts(){
-      return this.$store.getters.loadedPosts
-    }
-  }
-}
-</script-->
+
 <style scoped>
   .posts-page{
     display: flex;

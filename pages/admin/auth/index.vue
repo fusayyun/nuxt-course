@@ -26,7 +26,6 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { Auth } from '@/interfaces/post'
-// import { getModule } from 'vuex-module-decorators'
 import postsModule from '~/store/modules/PostsModule'
 @Component({
   layout: 'admin'
@@ -37,44 +36,16 @@ export default class extends Vue implements Auth {
   password= '';
 
   /** 處理送出事件 */
-  onSubmitted () {
-    // const MyModuleInstance = getModule(postsModule, this.$store)
-    postsModule.authenticateUser({
+  async onSubmitted () {
+    await postsModule.authenticateUser({
       isLogin: this.isLogin,
       email: this.email,
       password: this.password
-    }).then(() => {
-      this.$router.push('/admin')
     })
+    this.$router.push('/admin')
   }
 }
 </script>
-<!--script>
-export default {
-  name: 'AdminAuthPage',
-  layout: 'admin',
-  data() {
-    return {
-      isLogin: true,
-      email: '',
-      password: '',
-    }
-  },
-  methods:{
-    onSubmitted(){
-      this.$store.dispatch('authenticateUser',{
-        isLogin: this.isLogin,
-        email: this.email,
-        password: this.password
-      })
-      .then(()=>{
-        this.$router.push('/admin')
-      })
-    }
-  }
-}
-</script-->
-
 <style scoped>
 .admin-auth-page {
   padding: 20px;

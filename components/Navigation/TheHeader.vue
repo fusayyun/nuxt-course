@@ -41,16 +41,6 @@ export default class extends Vue {
 
 }
 </script>
-<!--script>
-import TheSideNavToggle from "@/components/Navigation/TheSideNavToggle";
-
-export default {
-  name: "TheHeader",
-  components: {
-    TheSideNavToggle
-  }
-};
-</script-->
 
 <style scoped>
 .header-container {

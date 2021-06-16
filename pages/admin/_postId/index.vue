@@ -5,71 +5,39 @@
     </section>
   </div>
 </template>
+
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import AdminPostForm from '@/components/Admin/AdminPostForm.vue'
-import { Post } from '@/interfaces/post'
+import { Post, PostEdited } from '@/interfaces/post'
 import postsModule from '~/store/modules/PostsModule'
 @Component({
   components: { AdminPostForm },
   layout: 'admin',
   middleware: ['check-auth', 'auth'],
   /** 向firebase擷取特定文章 */
-  asyncData (context) {
-    return context.app.$axios
-      .$get('/posts/' +
-          context.params.postId +
-          '.json')
-      .then((data: Post) => {
-        return {
-          loadedPost: { ...data, id: context.params.postId }
-        }
-      })
-      .catch((e: Error) => context.error(e))
+  async asyncData (context) {
+    try {
+      const loadedPost = await context.app.$axios.$get('/posts/' + context.params.postId + '.json')
+      return {
+        loadedPost: { ...loadedPost, id: context.params.postId }
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 })
 export default class extends Vue {
+  /** asyncData 載入文章 */
   loadedPost!: Post;
-  onSubmitted (editedPost:Pick<Post, 'author' | 'title'| 'thumbnail'| 'content' | 'previewText'>) {
-    postsModule.editPost({ ...editedPost, id: this.loadedPost.id, updatedDate: this.loadedPost.updatedDate })
-      .then(() => {
-        console.log({ ...editedPost, id: this.loadedPost.id, updatedDate: this.loadedPost.updatedDate })
-        this.$router.push('/admin')
-      })
+  /** 送出處理 */
+  async onSubmitted (editedPost:PostEdited) {
+    await postsModule.editPost({ ...editedPost, id: this.loadedPost.id, updatedDate: this.loadedPost.updatedDate })
+    this.$router.push('/admin')
   };
 }
 </script>
-<!--script>
-import AdminPostForm from '@/components/Admin/AdminPostForm'
-export default {
-  layout: 'admin',
-  middleware: ['check-auth','auth'],
-  components:{
-    AdminPostForm
-  },
-  asyncData(context){
-    return context.app.$axios
-      .$get('/posts/' +
-          context.params.postId +
-          '.json')
-      .then( data => {
-        return{
-          loadedPost: {...data, id: context.params.postId}
-        }
-      })
-      .catch( e=> context.error(e));
-  },
-  methods:{
-    onSubmitted(editedPost){
-      this.$store.dispatch('editPost', editedPost)
-        .then(()=>{
-          this.$router.push('/admin');
-        })
-    }
-  }
 
-}
-</script-->
 <style scoped>
 .update-form {
   width: 90%;

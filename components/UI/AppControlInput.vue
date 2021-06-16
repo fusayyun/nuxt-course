@@ -20,34 +20,15 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class AppControlInput extends Vue {
-  /**
-   * input type
-   */
+  /** input type */
   @Prop({ type: String, default: 'input' })
   readonly controlType!: string;
 
-  /**
-   * input value
-   */
+  /** input value */
   @Prop({ type: String, default: '' })
   readonly value: string |undefined
 }
 </script>
-<!--script>
-export default {
-  name: 'AppInputControl',
-  props: {
-    controlType: {
-      type: String,
-      default: 'input'
-    },
-    value: {
-      type: String,
-      default: ''
-    }
-  }
-}
-</script-->
 
 <style scoped>
 .input-control {

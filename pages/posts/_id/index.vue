@@ -5,8 +5,8 @@
         {{ loadedPost.title }}
       </h1>
       <div class="post-details">
-        <!-- 使用date-filter處理日期格式: https://vuejs.org/v2/guide/filters.html -->
         <div class="post-detail">
+          <!-- 使用date-filter處理日期格式: https://vuejs.org/v2/guide/filters.html -->
           Last updated on {{ loadedPost.updatedDate | date }}
         </div>
         <div class="post-detail">
@@ -22,6 +22,7 @@
     </section>
   </div>
 </template>
+
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { Post } from '@/interfaces/post'
@@ -32,37 +33,21 @@ import { Post } from '@/interfaces/post'
     title: 'a Blog Post'
   },
   /** 文章載入 */
-  asyncData (context) {
-    return context.app.$axios.$get('/posts/' + context.params.id + '.json')
-      .then((data:Post) => {
-        return {
-          loadedPost: data
-        }
-      })
-      .catch((e:Error) => console.log(e))
+  async asyncData (context) {
+    try {
+      const loadedPost = await context.app.$axios.$get('/posts/' + context.params.id + '.json')
+      return { loadedPost }
+    } catch (error) {
+      console.log(error)
+    }
   }
 })
 export default class extends Vue {
-  // Async Data
+  /**  asyncData 載入的文章 */
   loadedPost!: Post;
 }
 </script>
-<!--script>
-export default {
-  asyncData(context){
-    return context.app.$axios.$get('/posts/'+context.params.id+'.json')
-      .then( data => {
-        return {
-          loadedPost: data
-        }
-      })
-      .catch( e => console.log(e))
-  },
-  head: {
-    title: 'a Blog Post'
-  }
-}
-</script-->
+
 <style scoped>
 .single-post-page {
   padding: 30px;

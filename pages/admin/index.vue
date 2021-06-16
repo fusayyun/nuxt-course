@@ -14,9 +14,9 @@
     </section>
   </div>
 </template>
+
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-// import { getModule } from 'vuex-module-decorators'
 import postsModule from '~/store/modules/PostsModule'
 @Component({
   middleware: ['check-auth', 'auth'],
@@ -25,36 +25,17 @@ import postsModule from '~/store/modules/PostsModule'
 export default class extends Vue {
   /** 取得文件列表 */
   get loadedPosts () {
-    // const MyModuleInstance = getModule(postsModule, this.$store)
-    // console.log('MyModuleInstance: ', MyModuleInstance)
     return postsModule.loadPosts
   }
 
   /** 登出事件處理 */
   onLogout () {
-    // const postsModule = getModule(postsModule, this.$store)
     postsModule.logout()
     this.$router.push('/admin/auth') // 登出後回到登入頁面
   };
 }
 </script>
-<!--script>
-export default {
-  layout: 'admin',
-  middleware: ['check-auth','auth'],
-  computed:{
-    loadedPosts(){
-      return this.$store.getters.loadedPosts
-    },
-  },
-  methods:{
-    onLogout(){
-      this.$store.dispatch('logout');
-      this.$router.push('/admin/auth'); // 登出後回到登入頁面
-    }
-  }
-}
-</script-->
+
 <style scoped>
 .admin-page {
   padding: 20px;
