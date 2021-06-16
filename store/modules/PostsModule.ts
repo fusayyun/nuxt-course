@@ -6,7 +6,7 @@ import { Post, Auth } from '~/interfaces/post'
 import { $axios } from '~/utils/api'
 // Set rawError to true by default on all @Action decorators
 config.rawError = true
-@Module({ dynamic: true, name: 'PostsModule', store, namespaced: true/* , namespaced: true, stateFactory: true  */ })
+@Module({ dynamic: true, name: 'PostsModule', store, namespaced: true/*, stateFactory: true  */ })
 class PostsModule extends VuexModule {
   /** state */
   loadedPosts:Post[] = [];
@@ -15,14 +15,15 @@ class PostsModule extends VuexModule {
   @Mutation
   private SET_POSTS (posts: Post[]) {
     this.loadedPosts = posts
-    console.log('why', posts)
   };
 
+  /** 新增文章 */
   @Mutation
   private ADD_POST (post: Post) {
     this.loadedPosts.push(post)
   };
 
+  /** 編輯文章 */
   @Mutation
   private EDIT_POST (editPost: Post) {
     const postIndex = this.loadedPosts.findIndex(post => post.id === editPost.id)
@@ -34,6 +35,7 @@ class PostsModule extends VuexModule {
     this.token = token
   }
 
+  /** 清除token */
   @Mutation
   private CLEAR_TOKEN () {
     this.token = null
@@ -46,7 +48,6 @@ class PostsModule extends VuexModule {
 
   @Action
   async addPost (post:Pick<Post, 'author' | 'title'| 'thumbnail'| 'content' | 'previewText'>) {
-    console.log(this.token)
     const createdData: Pick<Post, 'author' | 'title'| 'thumbnail'| 'content' | 'previewText'|'updatedDate'> = {
       ...post,
       updatedDate: new Date()
@@ -75,7 +76,6 @@ class PostsModule extends VuexModule {
   /** 驗證使用者 */
   @Action({ rawError: true })
   async authenticateUser (authData:Auth) {
-    console.log(this)
     let authUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' +
         process.env.fbAPIKey
     if (!authData.isLogin) {

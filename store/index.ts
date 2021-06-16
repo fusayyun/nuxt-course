@@ -22,11 +22,8 @@ export const store = new Vuex.Store<RootState>({
           for (const key in data) {
             postsArray.push({ ...data[key], id: key })
           }
-          console.log('test', vuexContext.commit)
           vuexContext.commit('PostsModule/SET_POSTS', postsArray)
-        }).then(() =>
-          console.log('rootState'/* , vuexContext.rootState.postsModule */)
-        )
+        })
         .catch((e:Error) => context.error(e))
     }
   }
