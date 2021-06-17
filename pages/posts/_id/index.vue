@@ -52,7 +52,6 @@ export default class extends Vue {
 .single-post-page {
   padding: 30px;
   text-align: center;
-  box-sizing: border-box;
 }
 
 .post {
@@ -72,7 +71,6 @@ export default class extends Vue {
 
 .post-details {
   padding: 10px;
-  box-sizing: border-box;
   border-bottom: 3px solid #ccc;
   display: flex;
   justify-content: center;

@@ -44,7 +44,6 @@ export default class AppControlInput extends Vue {
 .input-control textarea {
   display: block;
   width: 100%;
-  box-sizing: border-box;
   font: inherit;
   border: 1px solid #ccc;
   padding: 5px;

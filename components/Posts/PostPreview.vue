@@ -3,8 +3,8 @@
     <article>
       <div class="post-thumbnail" :style="{backgroundImage: 'url('+thumbnail+')'}" />
       <div class="post-content">
-        <h1>{{ title }}</h1>
-        <p>{{ previewText }}</p>
+        <h1 v-html="title" />
+        <p v-html="previewText" />
       </div>
     </article>
   </nuxt-link>
@@ -93,5 +93,10 @@ a {
 a:hover .post-content,
 a:active .post-content {
   background-color: #ccc;
+}
+>>> .highlight {
+  background-color: rgb(245, 180, 0);
+  color: white;
+  padding: 0px 5px;
 }
 </style>

@@ -114,7 +114,7 @@ class PostsModule extends VuexModule {
       }
       token = jwtCookie.split('=')[1]
       // 如何解決:'TS2532: Object is possibly 'undefined'?
-      expirationDate = req?.headers?.cookie?.split(';')?.find(c => c.trim().startsWith('expirationDate='))?.split('=')[1]
+      expirationDate = req.headers.cookie.split(';').find(c => c.trim().startsWith('expirationDate='))?.split('=')[1]
     } else { // 頁面切換
       token = Cookie.get('jwt')
       expirationDate = Cookie.get('expirationDate')

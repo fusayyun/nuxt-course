@@ -24,7 +24,6 @@ export default class extends Vue {
   height: 300px;
   position: relative;
   padding: 30px;
-  box-sizing: border-box;
   background-image: url('~assets/image/main-page-bg.jpg');
   background-position: center;
   background-size: cover;
@@ -41,7 +40,6 @@ export default class extends Vue {
   padding: 10px;
   border-radius: 10px;
   box-shadow: 3px 3px 3px black;
-  box-sizing: border-box;
   border: 1px solid black;
 }
 
@@ -54,7 +52,6 @@ export default class extends Vue {
 .featured-posts {
   display: flex;
   padding: 20px;
-  box-sizing: border-box;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;

@@ -58,6 +58,5 @@ export default class extends Vue implements Auth {
   width: 300px;
   margin: auto;
   padding: 10px;
-  box-sizing: border-box;
 }
 </style>
