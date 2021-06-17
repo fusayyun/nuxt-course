@@ -1,12 +1,16 @@
 <template>
   <div class="input-control">
     <label><slot /></label>
-    <input
-      v-if="controlType === 'input'"
-      v-bind="$attrs"
-      :value="value"
-      @input="$emit('input', $event.target.value)"
-    >
+    <ValidationProvider v-slot="{ errors }">
+      <input
+        v-if="controlType === 'input'"
+        v-bind="$attrs"
+        :value="value"
+        @input="$emit('input', $event.target.value)"
+      >
+      <span>{{ errors[0] }}</span>
+    </ValidationProvider>
+
     <textarea
       v-if="controlType === 'textarea'"
       rows="10"
@@ -17,8 +21,11 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { ValidationProvider } from 'vee-validate'
 
-@Component
+@Component({
+  components: { ValidationProvider }
+})
 export default class AppControlInput extends Vue {
   /** input type */
   @Prop({ type: String, default: 'input' })

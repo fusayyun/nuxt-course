@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="filter">
-      <input v-model="filter" type="text" placeholder="輸入關鍵字">
+      <AppControlInput v-model="filter" placeholder="請輸入關鍵字" />
     </div>
     <h5>
       共有{{ filteredPost.length }}篇文章
@@ -41,20 +41,28 @@ export default class PostList extends Vue {
   @Prop({ type: Array, required: true })
   readonly posts!: PostPreviewed[];
 
+  // FIXME SyntaxError: Invalid regular expression: /[/: Unterminated character class
+  /** 篩選後的文章 */
   get filteredPost () {
+    if (!this.filter) { return this.posts } // 如果是filter是空值，返回原始陣列
+    // TODO 物件的key值這樣做好嗎?
     const fields:keyPost[] = ['title', 'previewText']
     return this.posts.filter((post:PostPreviewed) => {
-      let containFlag = false
-      fields.forEach((field) => {
-        // TODO 物件的key值這樣做好嗎?
-        if (post[field].toLowerCase().includes(this.filter.toLowerCase())) { containFlag = true }
-      })
-      return containFlag
+      for (const field of fields) {
+        if (post[field].toLowerCase().includes(this.filter.toLowerCase())) {
+          return true
+        }
+      }
+      return false
     }).map((post) => {
-      if (this.filter === '') { return post }
       const cache = { ...post }
+      let regex:RegExp
+      try {
+        regex = new RegExp(this.filter, 'i')
+      } catch (error) {
+        return post
+      }
       fields.forEach((field) => {
-        const regex = new RegExp(this.filter, 'i')
         const match = post[field].match(regex)
         if (match) {
           cache[field] = post[field].replace(regex, "<span class='highlight'>" + match[0] + '</span>')
@@ -72,17 +80,14 @@ export default class PostList extends Vue {
     .post-list {
       display: flex;
       padding: 20px;
-      box-sizing: border-box;
       flex-wrap: wrap;
       justify-content: center;
     }
     .filter{
       display: flex;
       padding: 20px;
-      justify-content: center;
-      box-sizing: border-box;
       flex-wrap: wrap;
+      justify-content: center;
     }
   }
-
 </style>

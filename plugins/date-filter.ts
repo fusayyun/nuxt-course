@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-const months: string[] = [
+const months = [
   'Jan.',
   'Feb.',
   'Mar.',
