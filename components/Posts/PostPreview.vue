@@ -1,48 +1,62 @@
 <template>
-       <nuxt-link class="post-preview" :to="postLink">
-        <article>
-          <div class="post-thumbnail" :style="{backgroundImage: 'url('+thumbnail+')'}"></div>
-          <div class="post-content">
-            <h1>{{title}}</h1>
-            <p>{{previewText}}</p>
-          </div>
-        </article>
-      </nuxt-link>
+  <nuxt-link class="post-preview" :to="postLink">
+    <article>
+      <div class="post-thumbnail" :style="{backgroundImage: 'url('+thumbnail+')'}" />
+      <div class="post-content">
+        <h1>{{ title }}</h1>
+        <p>{{ previewText }}</p>
+      </div>
+    </article>
+  </nuxt-link>
 </template>
-<script>
-export default {
-  name:'PostPreview',
-  props: {
-    isAdmin: {
-      type: Boolean,
-      default: true,
-    },
-    id:{
-      type: String,
-      required: true,
-    },
-    title:{
-      type:String,
-      required: true,
-    },
-    previewText:{
-      type: String,
-      required: true,
-    },
-    thumbnail:{
-      type: String,
-      required: true,
-    },
-    
 
-  },
-  computed: {
-    postLink(){
-      return this.isAdmin ? '/admin/'+this.id : '/posts/' + this.id
-    }
+<script lang="ts">
+import { Vue, Component, Prop } from 'nuxt-property-decorator'
+
+@Component
+export default class PostPreview extends Vue {
+  /** 是否在Admin頁面 */
+  @Prop({
+    type: Boolean,
+    default: true
+  })
+  readonly isAdmin!: boolean;
+
+  /** 文章ID */
+  @Prop({
+    type: String,
+    required: true
+  })
+  readonly id!: string;
+
+  /** 文章標題 */
+  @Prop({
+    type: String,
+    required: true
+  })
+  readonly title!: string;
+
+  /** 文章預覽文字 */
+  @Prop({
+    type: String,
+    required: true
+  })
+  readonly previewText!: string;
+
+  /** 文章預覽圖 */
+  @Prop({
+    type: String,
+    required: true
+  })
+  readonly thumbnail!: string;
+
+  /** Admin頁面?文章編輯頁:文章閱覽頁 */
+  get postLink (): string {
+    return this.isAdmin ? '/admin/' + this.id : '/posts/' + this.id
   }
 }
 </script>
+
 <style scoped>
 
 .post-preview {

@@ -1,33 +1,46 @@
 <template>
-<div class="header-container">
-  <header class="the-header">
-    <TheSideNavToggle @toggle="$emit('sidenavToggle')" />
-    <div class="logo">
-      <nuxt-link to="/">FU BLOG</nuxt-link>
-    </div>
-    <div class="spacer"></div>
-    <div class="navigation-items">
-      <ul class="nav-list">
-        <li class="nav-item"><nuxt-link to="/posts">Blog</nuxt-link></li>
-        <li class="nav-item"><nuxt-link to="/about">About</nuxt-link></li>
-        <li class="nav-item"><nuxt-link to="/admin">Admin</nuxt-link></li>
-      </ul>
-    </div>
-  </header>
-</div>
+  <div class="header-container">
+    <header class="the-header">
+      <TheSideNavToggle @toggle="$emit('sidenavToggle')" />
+      <div class="logo">
+        <nuxt-link to="/">
+          FU BLOG
+        </nuxt-link>
+      </div>
+      <div class="spacer" />
+      <div class="navigation-items">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <nuxt-link to="/posts">
+              Blog
+            </nuxt-link>
+          </li>
+          <li class="nav-item">
+            <nuxt-link to="/about">
+              About
+            </nuxt-link>
+          </li>
+          <li class="nav-item">
+            <nuxt-link to="/admin">
+              Admin
+            </nuxt-link>
+          </li>
+        </ul>
+      </div>
+    </header>
+  </div>
 </template>
 
-<script>
-import TheSideNavToggle from "@/components/Navigation/TheSideNavToggle";
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
+import TheSideNavToggle from '@/components/Navigation/TheSideNavToggle.vue'
+@Component({
+  components: { TheSideNavToggle }
+})
+export default class extends Vue {
 
-export default {
-  name: "TheHeader",
-  components: {
-    TheSideNavToggle
-  }
-};
+}
 </script>
-
 
 <style scoped>
 .header-container {

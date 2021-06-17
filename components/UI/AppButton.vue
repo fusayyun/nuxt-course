@@ -3,21 +3,22 @@
     class="button"
     :class="btnStyle"
     v-bind="$attrs"
-    v-on="$listeners"><slot /></button>
+    v-on="$listeners"
+  >
+    <slot />
+  </button>
 </template>
 
-<script>
-export default {
-  name: 'AppButton',
-  props: {
-    btnStyle: {
-      type: String,
-      default: ''
-    }
-  }
+<script lang="ts">
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
+
+@Component
+export default class AppButton extends Vue {
+  /** 按鈕 style */
+  @Prop({ type: String, default: '' })
+  readonly btnStyle: string | undefined;
 }
 </script>
-
 
 <style scoped>
 .button {

@@ -1,33 +1,36 @@
 <template>
   <section class="post-list">
-  <PostPreview
-    v-for='post in posts'
-    :key='post.id'
-    :id='post.id'
-    :is-admin='isAdmin'
-    :thumbnail='post.thumbnail'
-    :title='post.title'
-    :previewText='post.previewText' />
+    <PostPreview
+      v-for="post in posts"
+      :id="post.id"
+      :key="post.id"
+      :is-admin="isAdmin"
+      :thumbnail="post.thumbnail"
+      :title="post.title"
+      :preview-text="post.previewText"
+    />
   </section>
 </template>
-<script>
-import PostPreview from '@/components/Posts/PostPreview'
-export default {
-  components: {
-    PostPreview
-  },
-  props:{
-    isAdmin: {
-      type: Boolean,
-      default: false,
-    },
-    posts:{
-      type: Array,
-      required: true,
-    }
-  }
+
+<script lang="ts">
+import PostPreview from '@/components/Posts/PostPreview.vue'
+import { Component, Vue, Prop } from 'nuxt-property-decorator'
+import { PostPreviewed } from '@/interfaces/post'
+
+@Component({
+  components: { PostPreview }
+})
+export default class PostList extends Vue {
+  /** 是否在admin頁面 */
+  @Prop({ type: Boolean, default: false })
+  readonly isAdmin!: boolean;
+
+  /** 文章陣列 */
+  @Prop({ type: Array, required: true })
+  readonly posts!: PostPreviewed[];
 }
 </script>
+
 <style scoped>
   .post-list {
   display: flex;

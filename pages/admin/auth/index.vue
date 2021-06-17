@@ -2,45 +2,50 @@
   <div class="admin-auth-page">
     <div class="auth-container">
       <form @submit.prevent="onSubmitted">
-        <AppControlInput type="email" v-model="email">E-Mail Address</AppControlInput>
-        <AppControlInput type="password" v-model="password">Password</AppControlInput>
-        <AppButton type="submit">{{ isLogin ? 'Login' : 'Sign Up' }}</AppButton>
+        <AppControlInput v-model="email" type="email">
+          E-Mail Address
+        </AppControlInput>
+        <AppControlInput v-model="password" type="password">
+          Password
+        </AppControlInput>
+        <AppButton type="submit">
+          {{ isLogin ? 'Login' : 'Sign Up' }}
+        </AppButton>
         <AppButton
           type="button"
           btn-style="inverted"
           style="margin-left: 10px"
-          @click="isLogin = !isLogin">Switch to {{ isLogin ? 'Signup' : 'Login' }}</AppButton>
+          @click="isLogin = !isLogin"
+        >
+          Switch to {{ isLogin ? 'Signup' : 'Login' }}
+        </AppButton>
       </form>
     </div>
   </div>
 </template>
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
+import { Auth } from '@/interfaces/post'
+import postsModule from '~/store/modules/PostsModule'
+@Component({
+  layout: 'admin'
+})
+export default class extends Vue implements Auth {
+  isLogin= true;
+  email= '';
+  password= '';
 
-<script>
-export default {
-  name: 'AdminAuthPage',
-  layout: 'admin',
-  data() {
-    return {
-      isLogin: true,
-      email: '',
-      password: '',
-    }
-  },
-  methods:{
-    onSubmitted(){
-      this.$store.dispatch('authenticateUser',{
-        isLogin: this.isLogin,
-        email: this.email,
-        password: this.password
-      })
-      .then(()=>{
-        this.$router.push('/admin')
-      })
-    }
+  /** 處理送出事件 */
+  async onSubmitted () {
+    await postsModule.authenticateUser({
+      isLogin: this.isLogin,
+      email: this.email,
+      password: this.password
+    })
+    this.$router.push('/admin')
   }
 }
 </script>
-
 <style scoped>
 .admin-auth-page {
   padding: 20px;
@@ -56,4 +61,3 @@ export default {
   box-sizing: border-box;
 }
 </style>
-

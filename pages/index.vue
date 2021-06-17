@@ -3,24 +3,22 @@
     <section class="intro">
       <h1>得到最新的消息！</h1>
     </section>
-    <PostList :posts='loadedPosts'/>
+    <PostList :posts="loadedPosts" />
   </div>
 </template>
-<script>
-export default {
-  computed:{
-    loadedPosts(){
-      console.log(this.$store.getters.loadedPosts)
-      return this.$store.getters.loadedPosts
-    },
-  },
-  // data(){
-  //   return{
-  //     loadedPosts: []  
-  //   }
-  // },
+
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
+import postsModule from '~/store/modules/PostsModule'
+@Component
+export default class extends Vue {
+  /** 取得文件列表 */
+  get loadedPosts () {
+    return postsModule.loadPosts
+  }
 }
 </script>
+
 <style scoped>
 .intro {
   height: 300px;
