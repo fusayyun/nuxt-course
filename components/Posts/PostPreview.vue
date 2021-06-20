@@ -57,20 +57,37 @@ export default class PostPreview extends Vue {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 .post-preview {
+  text-decoration: none;
+  color: black;
   border: 1px solid #ccc;
   box-shadow: 0 2px 2px #ccc;
   background-color: white;
   width: 90%;
-}
 
-a {
-  text-decoration: none;
-  color: black;
+  .post-thumbnail {
+    width: 100%;
+    height: 200px;
+    background-position: center;
+    background-size: cover;
+  }
+  .post-content {
+    padding: 10px;
+    text-align: center;
+  }
+  &:hover, &:active {
+    .post-content {
+      background-color: #ccc;
+    }
+  }
+  ::v-deep .highlight {
+    background-color: rgb(245, 180, 0);
+    color: white;
+    padding: 0px 5px;
+  }
 }
-
 @media (min-width: 850px) {
   .post-preview {
     width: 400px;
@@ -78,25 +95,4 @@ a {
   }
 }
 
-.post-thumbnail {
-  width: 100%;
-  height: 200px;
-  background-position: center;
-  background-size: cover;
-}
-
-.post-content {
-  padding: 10px;
-  text-align: center;
-}
-
-a:hover .post-content,
-a:active .post-content {
-  background-color: #ccc;
-}
->>> .highlight {
-  background-color: rgb(245, 180, 0);
-  color: white;
-  padding: 0px 5px;
-}
 </style>

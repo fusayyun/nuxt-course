@@ -1,4 +1,3 @@
-const { Off } = require('nuxt-property-decorator')
 
 module.exports = {
   root: true,
@@ -8,7 +7,8 @@ module.exports = {
   },
   extends: [
     '@nuxtjs/eslint-config-typescript',
-    'plugin:nuxt/recommended'
+    'plugin:nuxt/recommended',
+    "@vue/prettier" //使用 prettier
   ],
   plugins: [
   ],

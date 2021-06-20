@@ -25,8 +25,6 @@ import PostPreview from '@/components/Posts/PostPreview.vue'
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
 import { PostPreviewed } from '@/interfaces/post'
 
-type keyPost = keyof PostPreviewed;
-
 @Component({
   components: { PostPreview }
 })
@@ -45,8 +43,7 @@ export default class PostList extends Vue {
   /** 篩選後的文章 */
   get filteredPost () {
     if (!this.filter) { return this.posts } // 如果是filter是空值，返回原始陣列
-    // TODO 物件的key值這樣做好嗎?
-    const fields:keyPost[] = ['title', 'previewText']
+    const fields:(keyof PostPreviewed)[] = ['title', 'previewText']
     return this.posts.filter((post:PostPreviewed) => {
       for (const field of fields) {
         if (post[field].toLowerCase().includes(this.filter.toLowerCase())) {
@@ -55,7 +52,7 @@ export default class PostList extends Vue {
       }
       return false
     }).map((post) => {
-      const cache = { ...post }
+      const cache = JSON.parse(JSON.stringify(post))
       let regex:RegExp
       try {
         regex = new RegExp(this.filter, 'i')

@@ -7,8 +7,9 @@ export interface Post{
   readonly content: string;
   readonly updatedDate: Date;
 }
+type Writeable<T> = { -readonly [P in keyof T]: T[P] };
 
-export type PostEdited=Pick<Post, 'author' | 'title'| 'thumbnail'| 'content' | 'previewText'>
+export type PostEdited=Pick<Writeable<Post>, 'author' | 'title'| 'thumbnail'| 'content' | 'previewText'>
 
 export type PostCreated = Pick<Post, 'author' | 'title'| 'thumbnail'| 'content' | 'previewText'|'updatedDate'>
 

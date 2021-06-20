@@ -10,7 +10,7 @@
           Last updated on {{ loadedPost.updatedDate | date }}
         </div>
         <div class="post-detail">
-          Written by {{ loadedPost.author }}
+          Written by {{ loadedPost.author?loadedPost.author:'匿名' }}
         </div>
       </div>
       <p class="post-content">
