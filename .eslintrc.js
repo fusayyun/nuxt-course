@@ -1,4 +1,3 @@
-
 module.exports = {
   root: true,
   env: {
@@ -7,8 +6,7 @@ module.exports = {
   },
   extends: [
     '@nuxtjs/eslint-config-typescript',
-    'plugin:nuxt/recommended',
-    "@vue/prettier" //使用 prettier
+    'plugin:nuxt/recommended'
   ],
   plugins: [
   ],

@@ -28,14 +28,7 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { Auth } from '@/interfaces/post'
-import { extend } from 'vee-validate'
-import { regex } from 'vee-validate/dist/rules'
 import postsModule from '~/store/modules/PostsModule'
-
-extend('regex', {
-  ...regex,
-  message: '密碼至少要6個字元以上，或是包含不符字元'
-})
 
 @Component({
   layout: 'admin'
