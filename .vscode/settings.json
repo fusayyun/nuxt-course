@@ -18,5 +18,8 @@
   "vetur.languageFeatures.codeActions": false,
   "vetur.trace.server": "messages",
   "vetur.validation.style": false,
-  "search.followSymlinks": false
+  "search.followSymlinks": false,
+  "cSpell.words": [
+    "Multiselect"
+  ]
 }

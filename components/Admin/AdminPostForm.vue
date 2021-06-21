@@ -5,7 +5,8 @@
         v-model="editedPost.author"
         :rules="`${annonymous?'':'required'}`"
         :disabled="annonymous"
-        name="作者">
+        name="作者"
+      >
         作者名稱
       </AppControlInput>
 
@@ -14,7 +15,8 @@
       <AppControlInput
         v-model="editedPost.title"
         name="標題"
-        required>
+        required
+      >
         標題
       </AppControlInput>
 
@@ -22,15 +24,20 @@
         v-model="editedPost.thumbnail"
         name="縮圖"
         required
-        rules="imageUrl">
+        rules="imageUrl"
+      >
         縮圖連結
       </AppControlInput>
 
+      <AppDropdown :catogories="catogories" @delete="onDelete">
+        文章類別
+      </AppDropdown>
       <AppControlInput
         v-model="editedPost.content"
         control-type="textarea"
         name="內文"
       >
+        內文
       </AppControlInput>
 
       <AppControlInput
@@ -64,10 +71,14 @@ import { Post, PostEdited } from '~/interfaces/post'
 @Component
 export default class AdminPostForm extends Vue {
   annonymous= false
-
+  catogories = ['音樂', '電影']
   /** 載入的文章 */
   @Prop({ type: Object, required: false })
   readonly post: Post | undefined;
+
+  // /** 下拉式選單 */
+  // @Prop({ type: Array })
+  // readonly catogories!:string[];
 
   public editedPost: PostEdited =
   {
@@ -94,6 +105,11 @@ export default class AdminPostForm extends Vue {
     if (this.annonymous) {
       this.editedPost.author = ''
     }
+  }
+
+  onDelete (option:string) {
+    this.catogories = this.catogories.filter(value => value !== option)
+    console.log(this.catogories)
   }
 
   /** 如果有擷取到文章，載入文章 */
