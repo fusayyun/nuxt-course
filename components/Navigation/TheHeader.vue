@@ -56,7 +56,6 @@ export default class extends Vue {
   align-items: center;
   background-color: black;
   z-index: 100;
-  box-sizing: border-box;
   padding: 0 20px;
 }
 

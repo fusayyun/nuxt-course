@@ -10,7 +10,7 @@
           Last updated on {{ loadedPost.updatedDate | date }}
         </div>
         <div class="post-detail">
-          Written by {{ loadedPost.author }}
+          Written by {{ loadedPost.author?loadedPost.author:'匿名' }}
         </div>
       </div>
       <p class="post-content">
@@ -52,7 +52,6 @@ export default class extends Vue {
 .single-post-page {
   padding: 30px;
   text-align: center;
-  box-sizing: border-box;
 }
 
 .post {
@@ -72,7 +71,6 @@ export default class extends Vue {
 
 .post-details {
   padding: 10px;
-  box-sizing: border-box;
   border-bottom: 3px solid #ccc;
   display: flex;
   justify-content: center;

@@ -1,43 +1,61 @@
 <template>
-  <form @submit.prevent="onSave">
-    <AppControlInput v-model="editedPost.author">
-      Author Name
-    </AppControlInput>
+  <ValidationObserver v-slot="{ handleSubmit }">
+    <form @submit.prevent="handleSubmit(onSave)">
+      <AppControlInput
+        v-model="editedPost.author"
+        :rules="`${annonymous?'':'required'}`"
+        :disabled="annonymous"
+        name="作者">
+        作者名稱
+      </AppControlInput>
 
-    <AppControlInput v-model="editedPost.title">
-      Title
-    </AppControlInput>
+      <div><input v-model="annonymous" type="checkbox" @change="onChange()"> 匿名</div>
 
-    <AppControlInput v-model="editedPost.thumbnail">
-      Thumbnail Link
-    </AppControlInput>
+      <AppControlInput
+        v-model="editedPost.title"
+        name="標題"
+        required>
+        標題
+      </AppControlInput>
 
-    <AppControlInput
-      v-model="editedPost.content"
-      control-type="textarea"
-    >
-      Content
-    </AppControlInput>
-    <AppControlInput
-      v-model="editedPost.previewText"
-      control-type="textarea"
-    >
-      Preview Text
-    </AppControlInput>
+      <AppControlInput
+        v-model="editedPost.thumbnail"
+        name="縮圖"
+        required
+        rules="imageUrl">
+        縮圖連結
+      </AppControlInput>
 
-    <AppButton type="submit">
-      Save
-    </AppButton>
+      <AppControlInput
+        v-model="editedPost.content"
+        control-type="textarea"
+        name="內文"
+      >
+      </AppControlInput>
 
-    <AppButton
-      type="button"
-      style="margin-left: 10px"
-      btn-style="cancel"
-      @click="onCancel"
-    >
-      Cancel
-    </AppButton>
-  </form>
+      <AppControlInput
+        v-model="editedPost.previewText"
+        control-type="textarea"
+        name="文章預覽"
+        required
+      >
+        文章預覽
+      </AppControlInput>
+
+      <AppButton type="submit">
+        Save
+      </AppButton>
+
+      <AppButton
+        type="button"
+        style="margin-left: 10px"
+        btn-style="cancel"
+        @click="onCancel"
+      >
+        Cancel
+      </AppButton>
+    </form>
+  </ValidationObserver>
 </template>
 <script lang="ts">
 import { Component, Vue, Prop, Emit } from 'nuxt-property-decorator'
@@ -45,6 +63,8 @@ import { Post, PostEdited } from '~/interfaces/post'
 
 @Component
 export default class AdminPostForm extends Vue {
+  annonymous= false
+
   /** 載入的文章 */
   @Prop({ type: Object, required: false })
   readonly post: Post | undefined;
@@ -61,6 +81,7 @@ export default class AdminPostForm extends Vue {
   /** 儲存文章，觸發submit事件 */
   @Emit('submit')
   public onSave () {
+    console.log(this.editedPost)
     return this.editedPost
   };
 
@@ -68,6 +89,12 @@ export default class AdminPostForm extends Vue {
   public onCancel () {
     this.$router.push('/admin')
   };
+
+  public onChange () {
+    if (this.annonymous) {
+      this.editedPost.author = ''
+    }
+  }
 
   /** 如果有擷取到文章，載入文章 */
   created () {

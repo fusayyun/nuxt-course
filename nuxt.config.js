@@ -63,6 +63,10 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    /** 轉譯 */
+    transpile: [
+      'vee-validate/dist/rules'
+    ]
   },
 
   env: {

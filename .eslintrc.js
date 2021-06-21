@@ -1,5 +1,3 @@
-const { Off } = require('nuxt-property-decorator')
-
 module.exports = {
   root: true,
   env: {

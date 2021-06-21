@@ -70,7 +70,6 @@ export default class TheSidenav extends Vue {
   position: fixed;
   top: 0;
   left: 0;
-  box-sizing: border-box;
   padding: 30px;
 }
 
