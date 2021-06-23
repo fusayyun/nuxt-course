@@ -8,13 +8,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
-import postsModule from '~/store/modules/PostsModule'
+import { Component, Vue } from "nuxt-property-decorator";
+import postsModule from "~/store/modules/PostsModule";
+import tagsModule from "~/store/modules/TagsModule";
 @Component
 export default class extends Vue {
   /** 取得文件列表 */
-  get loadedPosts () {
-    return postsModule.loadPosts
+  get loadedPosts() {
+    return postsModule.loadPosts;
   }
 }
 </script>
@@ -24,7 +25,7 @@ export default class extends Vue {
   height: 300px;
   position: relative;
   padding: 30px;
-  background-image: url('~assets/image/main-page-bg.jpg');
+  background-image: url("~assets/image/main-page-bg.jpg");
   background-position: center;
   background-size: cover;
 }
@@ -56,5 +57,4 @@ export default class extends Vue {
   align-items: center;
   justify-content: center;
 }
-
 </style>

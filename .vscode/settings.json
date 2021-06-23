@@ -4,7 +4,7 @@
     "source.fixAll.eslint": true
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
 
   // Javascript and Typescript
   "javascript.format.enable": false,
@@ -20,6 +20,9 @@
   "vetur.validation.style": false,
   "search.followSymlinks": false,
   "cSpell.words": [
-    "Multiselect"
+    "Multiselect",
+    "fontawesome",
+    "fontawsome",
+    "fortawesome"
   ]
 }

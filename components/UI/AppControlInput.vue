@@ -7,7 +7,7 @@
         v-bind="$attrs"
         :value="value"
         @input="$emit('input', $event.target.value)"
-      >
+      />
       <span>{{ errors[0] }}</span>
       <textarea
         v-if="controlType === 'textarea'"
@@ -19,28 +19,28 @@
   </ValidationProvider>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { ValidationProvider } from 'vee-validate'
+import { Component, Prop, Vue } from "nuxt-property-decorator";
+import { ValidationProvider } from "vee-validate";
 
 @Component({
   components: { ValidationProvider }
 })
 export default class AppControlInput extends Vue {
   /** input type */
-  @Prop({ type: String, default: 'input' })
+  @Prop({ type: String, default: "input" })
   readonly controlType!: string;
 
   /** input value */
-  @Prop({ type: String, default: '' })
-  readonly value: string |undefined
+  @Prop({ type: String, default: "" })
+  readonly value!: string;
 
   /** input rules */
-  @Prop({ type: [String, Object], default: '' })
-  readonly rules!: string |object
+  @Prop({ type: [String, Object], default: "" })
+  readonly rules!: string | object;
 }
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .input-control {
   margin: 10px 0;
   label {
@@ -70,12 +70,13 @@ export default class AppControlInput extends Vue {
     }
   }
 }
-.invalid{
-  input,span{
-    color: #EB0600
+.invalid {
+  input,
+  span {
+    color: #eb0600;
   }
-  input{
-    border: 1px #EB0600 solid
+  input {
+    border: 1px #eb0600 solid;
   }
 }
 </style>
