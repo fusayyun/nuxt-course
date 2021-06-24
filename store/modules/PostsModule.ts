@@ -9,15 +9,18 @@ import {
   getModule
 } from "vuex-module-decorators";
 import Cookie from "js-cookie";
-import { Post, Auth, PostEdited, PostCreated } from "~/interfaces/post";
+import { Post, Auth, PostEdited, PostCreated } from "~/types/post";
 import { $axios } from "~/utils/api";
+
+//TODO 新增刪除文章功能
 // Set rawError to true by default on all @Action decorators
 config.rawError = true;
 @Module({
   dynamic: true,
   name: "PostsModule",
   store,
-  namespaced: true /*, stateFactory: true  */
+  namespaced: true,
+  stateFactory: true
 })
 class PostsModule extends VuexModule {
   /** state */

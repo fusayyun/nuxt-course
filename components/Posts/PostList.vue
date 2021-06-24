@@ -21,7 +21,7 @@
 <script lang="ts">
 import PostPreview from "@/components/Posts/PostPreview.vue";
 import { Component, Vue, Prop } from "nuxt-property-decorator";
-import { PostPreviewed } from "@/interfaces/post";
+import { PostPreviewed } from "@/types/post";
 
 //TODO 原本搜尋整合標籤搜尋功能以及標籤側邊欄展示
 @Component({

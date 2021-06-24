@@ -10,7 +10,7 @@
           Last updated on {{ loadedPost.updatedDate | date }}
         </div>
         <div class="post-detail">
-          Written by {{ loadedPost.author?loadedPost.author:'匿名' }}
+          Written by {{ loadedPost.author ? loadedPost.author : "匿名" }}
         </div>
       </div>
       <p class="post-content">
@@ -18,27 +18,33 @@
       </p>
     </section>
     <section class="post-feedback">
-      <p>讓我知道你有什麼想法，請寄信到<a href="mailto:siyun.fu@tpisoftware.com">siyun.fu@tpisoftware.com</a>。</p>
+      <p>
+        讓我知道你有什麼想法，請寄信到<a href="mailto:siyun.fu@tpisoftware.com"
+          >siyun.fu@tpisoftware.com</a
+        >。
+      </p>
     </section>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
-import { Post } from '@/interfaces/post'
+import { Component, Vue } from "nuxt-property-decorator";
+import { Post } from "@/types/post";
 
 @Component({
   /** 網頁標題 */
   head: {
-    title: 'a Blog Post'
+    title: "a Blog Post"
   },
   /** 文章載入 */
-  async asyncData (context) {
+  async asyncData(context) {
     try {
-      const loadedPost = await context.app.$axios.$get('/posts/' + context.params.id + '.json')
-      return { loadedPost }
+      const loadedPost = await context.app.$axios.$get(
+        "/posts/" + context.params.id + ".json"
+      );
+      return { loadedPost };
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 })

@@ -3,14 +3,28 @@
     <div class="auth-container">
       <ValidationObserver v-slot="{ handleSubmit }">
         <form @submit.prevent="handleSubmit(onSubmitted)">
-          <AppControlInput v-model="email" rules="email" type="email" name="信箱地址" required>
+          <AppControlInput
+            v-model="email"
+            rules="email"
+            type="email"
+            name="信箱地址"
+            required
+          >
             E-Mail Address
           </AppControlInput>
-          <AppControlInput v-model="password" :rules="{ regex: /^(?=.*[A-Za-z\d$@$!%*?&+~|{}:;<>/])[A-Za-z\d$@$!%*?&+~|{}:;<>/]{6,}$/ }" type="password" name="密碼" required>
+          <AppControlInput
+            v-model="password"
+            :rules="{
+              regex: /^(?=.*[A-Za-z\d$@$!%*?&+~|{}:;<>/])[A-Za-z\d$@$!%*?&+~|{}:;<>/]{6,}$/
+            }"
+            type="password"
+            name="密碼"
+            required
+          >
             Password
           </AppControlInput>
           <AppButton type="submit">
-            {{ isLogin ? 'Login' : 'Sign Up' }}
+            {{ isLogin ? "Login" : "Sign Up" }}
           </AppButton>
           <AppButton
             type="button"
@@ -18,7 +32,7 @@
             style="margin-left: 10px"
             @click="isLogin = !isLogin"
           >
-            Switch to {{ isLogin ? 'Signup' : 'Login' }}
+            Switch to {{ isLogin ? "Signup" : "Login" }}
           </AppButton>
         </form>
       </ValidationObserver>
@@ -26,26 +40,26 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
-import { Auth } from '@/interfaces/post'
-import postsModule from '~/store/modules/PostsModule'
+import { Component, Vue } from "nuxt-property-decorator";
+import { Auth } from "@/types/post";
+import postsModule from "~/store/modules/PostsModule";
 
 @Component({
-  layout: 'admin'
+  layout: "admin"
 })
 export default class extends Vue implements Auth {
-  isLogin= true;
-  email= '';
-  password= '';
+  isLogin = true;
+  email = "";
+  password = "";
 
   /** 處理送出事件 */
-  async onSubmitted () {
+  async onSubmitted() {
     await postsModule.authenticateUser({
       isLogin: this.isLogin,
       email: this.email,
       password: this.password
-    })
-    this.$router.push('/admin')
+    });
+    this.$router.push("/admin");
   }
 }
 </script>

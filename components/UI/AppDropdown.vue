@@ -6,25 +6,12 @@
       :options="catogories"
       placeholder="請選擇一個類別"
       :show-labels="false"
-      v-model="value"
+      :value="value"
       v-bind="$attrs"
-      @tag="addOption"
-      @input="$emit('update:value', value)"
+      @select="$emit('updateValue', $event)"
+      @tag="$emit('addOption', $event)"
+      @remove="$emit('removeValue', $event)"
     >
-      <template slot="option" slot-scope="props">
-        <div>
-          <span>
-            {{ props.option.isTag ? props.search : props.option.name }}
-          </span>
-          <button
-            type="button"
-            class="delete_btn"
-            @click="$emit('delete', props.option)"
-          >
-            DELETE
-          </button>
-        </div>
-      </template>
     </multiselect>
   </ValidationProvider>
 </template>
@@ -34,20 +21,11 @@ import { Component, Emit, Prop, Vue } from "nuxt-property-decorator";
 
 @Component
 export default class extends Vue {
-  //TODO: 要怎麼傳值才好?
-  value: Array<string> | Record<string, string>[] = [];
+  @Prop({})
+  value?: Object | string[] | string | number;
 
   @Prop({ type: Array })
   catogories!: string[];
-
-  @Emit("tag")
-  addOption(newOption: string) {
-    const id = newOption + Math.floor(Math.random() * 10000000);
-    const createdOption: any = { name: newOption, id };
-    // FIXME 如果不指派any不能過
-    this.value.push(createdOption);
-    this.$emit("addOption", createdOption);
-  }
 }
 </script>
 

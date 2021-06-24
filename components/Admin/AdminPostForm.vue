@@ -28,12 +28,14 @@
       </AppControlInput>
       <AppDropdown
         :catogories="catogories"
-        :value.sync="tags"
+        :value="tags"
         label="name"
         track-by="id"
         taggable
         multiple
         @addOption="onAdd"
+        @updateValue="onUpdate"
+        @removeValue="onRemove"
       >
         文章類別
       </AppDropdown>
@@ -71,16 +73,16 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Prop, Emit } from "nuxt-property-decorator";
-import { Post, PostEdited } from "~/interfaces/post";
+import { Post, PostEdited } from "~/types/post";
 import TagsModule from "~/store/modules/TagsModule";
+import { Tag } from "types/tag";
 
-//TODO 不需要在這裡刪除了
 //TODO 文章新增標籤資料
 //TODO 新增標籤到store和firebase
 @Component
 export default class AdminPostForm extends Vue {
   /** 選取的tags */
-  tags: string[] = [];
+  tags: Tag[] = [];
   annonymous = false;
   // catogories = [
   //   { name: "音樂", id: "xxx" },
@@ -127,9 +129,25 @@ export default class AdminPostForm extends Vue {
   //   console.log(this.catogories);
   // }
   @Emit("addOption")
-  onAdd(createdOption: any) {
-    console.log(createdOption);
-    this.catogories.push(createdOption);
+  async onAdd(createdOption: string) {
+    const newTag = await TagsModule.addTag(createdOption);
+    if (!newTag) {
+      return;
+    }
+    this.tags.push(newTag);
+    console.log("onadd:", createdOption);
+
+    // this.catogories.push(createdOption);
+  }
+
+  @Emit("updateValue")
+  onUpdate(pickedTag: Tag) {
+    this.tags.push(pickedTag);
+  }
+
+  @Emit("removeValue")
+  onRemove(deletedTag: Tag) {
+    this.tags = this.tags.filter(tag => tag !== deletedTag);
   }
 
   /** 如果有擷取到文章，載入文章 */
